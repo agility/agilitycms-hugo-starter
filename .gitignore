@@ -12,3 +12,5 @@
 /agility/.cache
 /content
 /data
+/public
+/resources/_gen
