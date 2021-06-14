@@ -1,0 +1,28 @@
+{
+	"name": "agility-hugo-ananke",
+	"version": "1.0.0",
+	"description": "An example hugo site built with Agility CMS and the ananke theme.",
+	"main": "index.js",
+	"scripts": {
+		"cms-clean": "node agility/agility.sync.js clear",
+		"prestart": "node agility/agility.sync.js sync preview",
+		"start": "hugo server -D",
+		"prebuild": "node agility/agility.sync.js sync live",
+		"build": "hugo --minify"
+	},
+	"author": "Joel Varty",
+	"license": "ISC",
+	"devDependencies": {
+		"@agility/content-sync": "^1.0.3",
+		"js-yaml": "^4.1.0",
+		"proper-lockfile": "^4.1.2",
+		"turndown": "^7.0.0"
+	},
+	"dependencies": {
+		"@tailwindcss/typography": "^0.4.1",
+		"autoprefixer": "^10.2.6",
+		"postcss": "^8.3.4",
+		"postcss-cli": "^8.3.1",
+		"tailwindcss": "^2.1.4"
+	}
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ $.Site.LanguageCode | default "en-us" }}">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<title>{{ block "title" . }}{{ with .Params.Title }}{{ . }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
+
+	<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
+	{{ hugo.Generator }}
+	{{/* NOTE: For Production make sure you add `HUGO_ENV="production"` before your build command */}}
+	{{ if eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production")  }}
+	  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+	{{ else }}
+	  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+	{{ end }}
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"/>
+	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+	{{ $styles := resources.Get "main.css" | postCSS }}
+
+	{{ if .Site.IsServer }}
+	<link rel="stylesheet" href="{{ $styles.RelPermalink }}"/>
+	{{ else }}
+	{{ $styles := $styles | minify | fingerprint | resources.PostProcess }}
+	<link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}"/>
+	{{ end }}
+
+  </head>
+
+  <body class="">
+	{{ block "header" . }}{{ partial "site-header.html" .}}{{ end }}
+	{{ block "main" . }}{{ end }}
+	{{ block "footer" . }}{{ partialCached "site-footer.html" . }}{{ end }}
+  </body>
+</html>
