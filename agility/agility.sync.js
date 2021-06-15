@@ -64,66 +64,6 @@ const clearSync = async ({ isPreview }) => {
 
 }
 
-const createMD = async ({ agilityClient, isPreview }) => {
-
-	//we are going to use the posts list to create blog posts in the content/post folder
-	const folder = "content/post"
-	const referenceName = "posts"
-	const languageCode = agilityConfig.languageCode
-
-	let posts = await agilityClient.getContentList({ referenceName, languageCode });
-	let categories = await agilityClient.getContentList({ referenceName: 'categories', languageCode });
-	let authors = await agilityClient.getContentList({ referenceName: 'authors', languageCode });
-
-	const turndownService = new TurndownService()
-
-	posts.forEach(async (post) => {
-
-		const categoryID = post.fields.category.contentid;
-		const authorID = post.fields.author.contentid;
-
-		const category = categories.find(c => c.contentID == categoryID);
-		const author = authors.find(a => a.contentID == authorID);
-
-
-		let imageSrc = null
-		if (post.fields.image) {
-			//let's make the image field a little smaller...
-			imageSrc = `${post.fields.image.url}?w=800`
-		}
-
-
-		let slug = post.fields.slug
-		try {
-
-			let filepath = `content/posts/${slug}.md`
-
-			let frontMatter =
-			{
-				title: post.fields.title,
-				date: post.fields.date,
-				category: category ? category.fields.title : null,
-				author: author ? author.fields.name : null,
-				featured_image: imageSrc,
-				draft: isPreview
-			}
-
-			const fmStr = jsyaml.safeDump(frontMatter)
-
-			const mdBody = turndownService.turndown(post.fields.content)
-
-			const md = `---\n${fmStr}\n---\r\n${mdBody}\r\n`
-
-			fs.writeFileSync(filepath, md)
-
-
-		} catch (e) {
-			console.error(e)
-		}
-
-	})
-}
-
 
 
 
