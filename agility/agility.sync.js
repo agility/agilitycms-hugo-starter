@@ -1,5 +1,5 @@
 const agilityContentSync = require('@agility/content-sync')
-const agilityMarkdown = require("./store-interface-md")
+const agilityFileSystem = require("@agility/content-sync/src/store-interface-filesystem");
 
 const jsyaml = require("js-yaml")
 const TurndownService = require('turndown')
@@ -11,7 +11,7 @@ const {  agilityConfig } = require('./agility.base')
 
 const getSyncClient = ({ isPreview }) => {
 
-	let cachePath = `agility/.cache/${isPreview ? 'preview' : 'live'}`
+	let cachePath = `node_modules/@agility/content-sync/cache/${isPreview ? "preview" : "live" }`;
 
 	const apiKey = isPreview ? agilityConfig.previewAPIKey : agilityConfig.fetchAPIKey
 
@@ -22,7 +22,7 @@ const getSyncClient = ({ isPreview }) => {
 		languages: agilityConfig.languageCodes,
 		channels: [agilityConfig.sitemap],
 		store: {
-			interface: agilityMarkdown,
+			interface: agilityFileSystem,
 			options: {
 				rootPath: cachePath
 			}
