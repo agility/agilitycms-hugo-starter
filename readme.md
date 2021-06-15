@@ -1,5 +1,5 @@
 # Agility CMS & Hugo Starter
-This is sample Hugo starter site that uses Agility CMS and aims to be a foundation for building fully static sites using Hugo and Agility CMS.
+This is a sample Hugo starter site that uses Agility CMS and aims to be a foundation for building fully static sites using Hugo and Agility CMS.
 
 [Live Website Demo](https://agilitycms-hugo-starter.vercel.app)
 
