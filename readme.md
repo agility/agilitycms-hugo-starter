@@ -69,7 +69,7 @@ When running your site in `production` mode, you will see the published from the
 ### How to Register Page Modules
 To create a new Page Module, create a new shortcode file within the `/layouts/shortcodes/page-modules` directory.
 
-### How to Register Page Modules
+### How to Register Page Templates
 To create a new Page Templates, create a new shortcode file within the `/layouts/shortcodes/page-templates` directory.
 
 ## Resources
