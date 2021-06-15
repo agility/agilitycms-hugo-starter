@@ -1,7 +1,8 @@
 <header>
 
-	{{ $header := .Site.Data.global.header.fields }}
-	{{ $nav := .Site.Data.global.navigation }}
+	{{ $global := .Site.Data.global }}
+	{{ $header := $global.header.fields }}
+	{{ $nav := $global.navigation }}
 
 
 	<header class="relative w-full mx-auto bg-white px-8" x-data="{ open: false }">

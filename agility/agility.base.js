@@ -20,16 +20,24 @@ const defaultConfig =  {
 	onClean: async ({ languageCode }) => {
 		//delete any content that needs to be cleaned up
 		const contentPath = path.join("content", languageCode);
-		console.log("Cleaning content folder:", contentPath)
+		const dataPath = path.join("data", languageCode);
+
 
 		if (fs.existsSync(contentPath)) {
+			console.log("Cleaning content folder:", contentPath)
 			fs.rmdirSync(contentPath, { recursive: true })
 		}
+
+		if (fs.existsSync(dataPath)) {
+			console.log("Cleaning data folder:", dataPath)
+			fs.rmdirSync(dataPath, { recursive: true })
+		}
+
 	},
 	onBuild: async ({ agility, languageCode, channelName }) => {
 		//output the pages
 		const contentPath = path.join("content", languageCode);
-		const dataPath = path.join("data");
+		const dataPath = path.join("data", languageCode);
 
 		//clear out the content on build
 		if (fs.existsSync(contentPath)) {
@@ -100,15 +108,15 @@ const defaultConfig =  {
 
 					 const moduleName = moduleObj.module.toLowerCase()
 					 if (dynamicPageItem) {
-						mdBody += `{{< page-modules/${moduleName} pageFile="page-${ sitemapObj.pageID }" moduleFile="module-${moduleObj.item.contentID}" dynamicContentItem="content-${dynamicPageItem.contentID}" >}}`
+						mdBody += `\n  {{< page-modules/${moduleName} pageFile="page-${ sitemapObj.pageID }" moduleFile="module-${moduleObj.item.contentID}" dynamicContentItem="content-${dynamicPageItem.contentID}" >}}`
 					 } else {
-						mdBody += `{{< page-modules/${moduleName} pageFile="page-${ sitemapObj.pageID }" moduleFile="module-${moduleObj.item.contentID}" >}}`
+						mdBody += `\n  {{< page-modules/${moduleName} pageFile="page-${ sitemapObj.pageID }" moduleFile="module-${moduleObj.item.contentID}" >}}`
 					 }
 
 
 				}
 
-				mdBody += `{{< /page-templates/${loweredZoneName} >}}`
+				mdBody += `\n{{< /page-templates/${loweredZoneName} >}}`
 			}
 
 
@@ -129,7 +137,7 @@ const defaultConfig =  {
 		//loop the loaders and load their data
 		for (const dataName in agilityConfig.loader) {
 			try {
-				console.log("Loader", dataName)
+				console.log("Loading data: ", dataName)
 
 				const dataLoader = agilityConfig.loader[dataName]
 
